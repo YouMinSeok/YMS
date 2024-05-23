@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/login.css">
+</head>
+<body class="login-page">
+    <header class="header-hero-container">
+        <%- include('partials/navbar', { user: user }) %>
+    </header>
+
+    <section class="login-section">
+        <div class="login-form-container">
+            <div class="login-form">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <input type="text" name="username" id="username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <p>Don't have an account? <a href="/register">Register here</a></p>
+            </div>
+        </div>
+    </section>
+
+    <div id="loadingScreen" class="loading-screen">
+        <div class="spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p class="loading-text">로그인 처리 중입니다...</p>
+    </div>
+
+    <footer>
+        <p>&copy; 배재대학교 대학원 연구실. All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.style.display = 'flex';
+
+            setTimeout(async () => {
+                try {
+                    const response = await fetch('/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to login');
+                    }
+
+                    const data = await response.json();
+                    localStorage.setItem('token', data.token);
+
+                    window.location.href = '/';
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('Failed to login. Please try again.');
+                } finally {
+                    loadingScreen.style.display = 'none';
+                }
+            }, 3000); // 3초 지연 후 서버 요청
+        });
+    </script>
+</body>
+</html>

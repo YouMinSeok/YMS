@@ -8,8 +8,13 @@
         <li><a href="/services">Services</a></li>
         <li><a href="/contact">Contact</a></li>
         <% if (user) { %>
-            <li><a href="/profile">My Profile</a></li>
-            <li><a href="/logout">Logout</a></li> <!-- 로그아웃 링크 -->
+            <li class="profile-info" style="display: block;">
+                <a href="/profile">
+                    <img src="<%= user.avatarUrl || '/uploads/default-avatar.png' %>" alt="Avatar" class="navbar-avatar" id="navbarAvatar">
+                    <span id="navbarNickname"><%= user.nickname %></span>님 환영합니다!
+                </a>
+            </li>
+            <li><a href="/logout">Logout</a></li>
         <% } else { %>
             <li><a href="/login">Login</a></li>
             <li><a href="/register">Register</a></li>

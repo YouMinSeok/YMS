@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <title>로그인</title>
+    <link rel="stylesheet" href="/styles/navbar.css">
     <link rel="stylesheet" href="/styles/login.css">
 </head>
 <body class="login-page">
@@ -15,70 +15,56 @@
     <section class="login-section">
         <div class="login-form-container">
             <div class="login-form">
-                <h2>Login</h2>
+                <h2>로그인</h2>
                 <form id="loginForm">
                     <div class="input-group">
-                        <input type="text" name="username" id="username" placeholder="Username" required>
+                        <input type="text" name="username" id="username" placeholder="사용자 이름" required>
                     </div>
                     <div class="input-group">
-                        <input type="password" name="password" id="password" placeholder="Password" required>
+                        <input type="password" name="password" id="password" placeholder="비밀번호" required>
                     </div>
-                    <button type="submit" class="btn">Login</button>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="rememberMe" id="rememberMe">
+                        <label for="rememberMe">아이디 기억하기</label>
+                    </div>
+                    <button type="submit" class="btn">로그인</button>
                 </form>
-                <p>Don't have an account? <a href="/register">Register here</a></p>
+                <div class="easy-login">
+                    <hr>
+                    <p>간편 로그인</p>
+                    <a href="/auth/google" id="googleLoginButton" class="btn btn-google">
+                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo">
+                        <span>Login with Google</span>
+                    </a>
+                </div>
+                <p>계정이 없으신가요? <a href="/register">회원가입</a></p>
             </div>
         </div>
     </section>
 
     <div id="loadingScreen" class="loading-screen">
         <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
         </div>
         <p class="loading-text">로그인 처리 중입니다...</p>
     </div>
 
     <footer>
-        <p>&copy; 배재대학교 대학원 연구실. All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
+        <p>&copy; 배재대학교 대학원. All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
     </footer>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            const loadingScreen = document.getElementById('loadingScreen');
-            loadingScreen.style.display = 'flex';
-
-            setTimeout(async () => {
-                try {
-                    const response = await fetch('/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ username, password })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Failed to login');
-                    }
-
-                    const data = await response.json();
-                    localStorage.setItem('token', data.token);
-
-                    window.location.href = '/';
-                } catch (error) {
-                    console.error('Login error:', error);
-                    alert('Failed to login. Please try again.');
-                } finally {
-                    loadingScreen.style.display = 'none';
-                }
-            }, 3000); // 3초 지연 후 서버 요청
-        });
-    </script>
+    <script src="/scripts/login.js"></script>
 </body>
 </html>

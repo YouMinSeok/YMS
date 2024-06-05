@@ -1,0 +1,317 @@
+body.profile-page {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+body.profile-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://example.com/your-background-image.jpg') no-repeat center center / cover;
+    z-index: -1;
+    opacity: 0.4;
+}
+
+.profile-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.profile-page-card {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 0.5s ease-in-out;
+    position: relative;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-page-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.profile-page-card h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #007bff;
+    font-weight: 700;
+}
+
+.profile-avatar {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.profile-avatar img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #007bff;
+}
+
+.profile-avatar .change-avatar-btn {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 0.9em;
+    border-radius: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar .change-avatar-btn:hover {
+    background-color: #0056b3;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0 5px;
+}
+
+.tab-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 20px 20px 0 0;
+}
+
+.tab-content {
+    display: none;
+    text-align: left;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.profile-page-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.profile-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #555;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-info-item strong {
+    flex: 0 0 120px;
+    text-align: left;
+    color: #333;
+    font-weight: 500;
+}
+
+.profile-info-item span, .profile-info-item input, .profile-info-item select {
+    flex: 1;
+    text-align: left;
+}
+
+.profile-info-item input, .profile-info-item select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info-item .input-group {
+    display: none; /* 기본적으로 숨기기 */
+    align-items: center;
+}
+
+.profile-info-item .input-group.active {
+    display: flex; /* 필요할 때 표시 */
+}
+
+.profile-info-item input[type="checkbox"] {
+    width: auto;
+    margin-left: 10px;
+}
+
+.profile-info-item span {
+    display: flex;
+    align-items: center;
+}
+
+.profile-info-item .edit-btn {
+    margin-left: 10px;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.profile-actions .btn {
+    padding: 12px 24px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-actions .btn:hover {
+    background: #0056b3;
+}
+
+.profile-info-item .save-nickname-btn {
+    margin-left: 10px;
+    background: #28a745;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info-item .save-nickname-btn:hover {
+    background: #218838;
+}
+
+.edit-btn {
+    margin-left: 10px;
+    background: #ffc107;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.edit-btn:hover {
+    background: #e0a800;
+}
+
+.header-hero-container {
+    margin-bottom: 20px;
+}
+
+.social-accounts {
+    display: flex;
+    gap: 10px;
+}
+
+.social-btn {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.social-btn.facebook {
+    background-color: #3b5998;
+    color: #fff;
+}
+
+.social-btn.facebook:hover {
+    background-color: #2d4373;
+}
+
+.social-btn.twitter {
+    background-color: #1da1f2;
+    color: #fff;
+}
+
+.social-btn.twitter:hover {
+    background-color: #0a85d0;
+}
+
+.social-btn.instagram {
+    background-color: #e1306c;
+    color: #fff;
+}
+
+.social-btn.instagram:hover {
+    background-color: #b82255;
+}
+
+.change-nickname-btn,
+.check-nickname-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.change-nickname-btn:hover,
+.check-nickname-btn:hover {
+    background-color: #0056b3;
+}

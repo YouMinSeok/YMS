@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
     <link rel="stylesheet" href="/styles/register.css">
 </head>
 <body class="register-page">
@@ -31,6 +31,10 @@
                     <div class="input-group">
                         <input type="password" id="confirmPassword" placeholder="비밀번호 확인" required>
                     </div>
+                    <div class="input-group">
+                        <input type="text" name="nickname" id="nickname" placeholder="닉네임" required>
+                        <span id="nicknameError" class="error"></span>
+                    </div>
                     <button type="submit" class="btn">회원가입</button>
                 </form>
                 <p>계정이 있으신가요? <a href="/login">여기서 로그인하세요</a></p>
@@ -41,88 +45,26 @@
 
     <div id="loadingScreen" class="loading-screen">
         <div class="spinner">
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
         </div>
         <p class="loading-text">회원가입 처리 중입니다...</p>
     </div>
 
     <footer>
-        <p>&copy; 배재대학교 대학원 연구실. All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
+        <p>&copy; 배재대학교 대학원 . All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
     </footer>
 
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            if (password !== confirmPassword) {
-                alert('비밀번호가 일치하지 않습니다.');
-                return;
-            }
-
-            if (password.length < 8 || password.length > 12 || !/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-zA-Z]).{8,12}$/.test(password)) {
-                alert('비밀번호는 8자 이상 12자 이내이어야 하며, 영문자, 숫자, 특수문자를 포함해야 합니다.');
-                return;
-            }
-
-            const isUsernameValid = await checkUsername();
-            const isEmailValid = await checkEmail();
-
-            if (isUsernameValid && isEmailValid) {
-                const loadingScreen = document.getElementById('loadingScreen');
-                loadingScreen.style.display = 'flex';
-
-                setTimeout(async () => {
-                    const response = await fetch('/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ username, email, password })
-                    });
-
-                    if (response.ok) {
-                        const responseData = await response.json();
-                        document.getElementById('registrationMessage').innerText = responseData.message;
-                        window.location.href = '/';
-                    } else {
-                        alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-                    }
-                }, 5000);
-            } else {
-                alert('사용자 이름 또는 이메일이 이미 존재합니다.');
-            }
-        });
-
-        async function checkEmail() {
-            const email = document.getElementById('email').value;
-            const response = await fetch('/check-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email })
-            });
-            return response.ok;
-        }
-
-        async function checkUsername() {
-            const username = document.getElementById('username').value;
-            const response = await fetch('/check-username', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username })
-            });
-            return response.ok;
-        }
-    </script>
+    <script src="/scripts/register.js"></script>
 </body>
 </html>

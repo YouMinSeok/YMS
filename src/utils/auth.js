@@ -1,18 +1,94 @@
-// src/utils/auth.js
-
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const User = require('../models/User');
 
-// 환경 변수에서 시크릿 키 가져오기
 const jwtSecret = process.env.JWT_SECRET;
+const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;
 
-// JWT 생성 함수
-function generateToken(payload) {
+function generateAccessToken(payload) {
     return jwt.sign(payload, jwtSecret, { expiresIn: '15m' });
 }
 
-// JWT 검증 함수
-function verifyToken(token) {
+function generateRefreshToken(payload) {
+    return jwt.sign(payload, jwtRefreshSecret, { expiresIn: '7d' });
+}
+
+function verifyAccessToken(token) {
     return jwt.verify(token, jwtSecret);
 }
 
-module.exports = { generateToken, verifyToken };
+function verifyRefreshToken(token) {
+    return jwt.verify(token, jwtRefreshSecret);
+}
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_REDIRECT_URI
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      let user = await User.findOne({ googleId: profile.id });
+      if (!user) {
+        user = new User({
+          googleId: profile.id,
+          username: profile.emails[0].value.split('@')[0],
+          email: profile.emails[0].value,
+          nickname: profile.displayName || profile.emails[0].value.split('@')[0], // 닉네임 설정
+          avatarUrl: profile.photos[0].value // Google 프로필 이미지 URL 설정
+        });
+        await user.save();
+      }
+      const jwtPayload = { userId: user._id, username: user.username, email: user.email };
+      const accessToken = generateAccessToken(jwtPayload);
+      const refreshToken = generateRefreshToken(jwtPayload);
+      done(null, { ...user.toObject(), accessToken, refreshToken });
+    } catch (err) {
+      done(err, null);
+    }
+  }
+));
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+module.exports = {
+    generateAccessToken,
+    generateRefreshToken,
+    verifyAccessToken,
+    verifyRefreshToken,
+    authenticateToken: async (req, res, next) => {
+        const token = req.cookies.accessToken;
+        if (!token) {
+            res.locals.user = null;
+            return next();
+        }
+        try {
+            const decoded = verifyAccessToken(token);
+            const user = await User.findById(decoded.userId);
+            res.locals.user = user;
+            next();
+        } catch (error) {
+            res.locals.user = null;
+            next();
+        }
+    },
+    checkEmail: async (email) => {
+        const existingUser = await User.findOne({ email });
+        return !!existingUser;
+    },
+    checkUsername: async (username) => {
+        const existingUser = await User.findOne({ username });
+        return !!existingUser;
+    },
+    checkNickname: async (nickname) => {
+        const existingUser = await User.findOne({ nickname });
+        return !!existingUser;
+    }
+};

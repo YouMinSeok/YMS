@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeWebGuard</title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/main.css">
 </head>
 <body class="main">
     <header class="header-hero-container">
         <%- include('partials/navbar', { user: user }) %>
         <div class="hero">
-            <h1>Welcome to the website</h1>
-            <p>A place where dreams come true</p>
+            <h1 class="hero-title">Welcome to the website</h1>
+            <p class="hero-subtitle">A place where dreams come true</p>
             <a href="#" class="btn">Get Started</a>
         </div>
     </header>
@@ -34,7 +35,9 @@
         </div>
     </section>
     <footer>
-        <p>&copy; 배재대학교 대학원 연구실. All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
+        <p>&copy; 배재대학교 대학원 . All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
     </footer>
+
+    <script src="/scripts/main.js"></script>
 </body>
 </html>

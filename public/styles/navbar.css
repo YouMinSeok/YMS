@@ -1,0 +1,58 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #333 0%, #666 100%);
+    border-bottom: 5px solid #444;
+}
+
+.navbar .nav-links {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.navbar .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-links li a:hover {
+    color: #ddd;
+}
+
+.navbar .logo h1 {
+    font-size: 24px;
+    color: #fff;
+}
+
+/* Navbar Profile Info Styles */
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+#navbarNickname {
+    font-weight: bold;
+    color: #fff;
+}

@@ -6,6 +6,7 @@
     <title>Profile</title>
     <link rel="stylesheet" href="/styles/navbar.css">
     <link rel="stylesheet" href="/styles/profile-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body class="profile-page">
     <header class="header-hero-container">
@@ -25,6 +26,7 @@
                 <button class="tab-btn active" onclick="openTab(event, 'basic-info')">기본 정보</button>
                 <button class="tab-btn" onclick="openTab(event, 'activity')">활동 내역</button>
                 <button class="tab-btn" onclick="openTab(event, 'settings')">설정</button>
+                <button class="tab-btn" onclick="openTab(event, 'updates')">업데이트 내역</button>
             </div>
             <div id="basic-info" class="tab-content active">
                 <div class="profile-page-info">
@@ -45,23 +47,47 @@
                         <strong>Password:</strong>
                         <span>********</span>
                     </div>
+                    <div class="profile-info-item">
+                        <strong>연동된 계정:</strong>
+                        <span>
+                            <% if (user.googleId) { %>
+                                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google Icon" style="width: 92px; vertical-align: middle; margin-right: 5px;"> 계정으로 로그인 중
+                            <% } %>
+                        </span>
+                    </div>
                 </div>
             </div>
             <div id="activity" class="tab-content">
-                <p>활동 내역을 여기에 표시합니다.</p>
+                <div class="activity-content">
+                    <h3>활동 내역</h3>
+                    <p>여기에 사용자의 활동 내역을 표시합니다.</p>
+                </div>
             </div>
             <div id="settings" class="tab-content">
-                <div class="profile-page-info">
-                    <div class="profile-info-item">
-                        <strong>Change Nickname:</strong>
-                        <span id="nicknameDisplay"><%= user.nickname %></span>
-                        <button class="btn change-nickname-btn" onclick="showNicknameInput()">닉네임 변경</button>
-                        <div class="input-group" id="nicknameInputGroup" style="display: none;">
-                            <input type="text" id="nicknameInput" value="">
-                            <button class="btn check-nickname-btn" onclick="checkNickname()">중복 확인</button>
+                <div class="settings-category">
+                    <h3>개인정보</h3>
+                    <div class="profile-page-info">
+                        <div class="profile-info-item">
+                            <strong>닉네임 변경:</strong>
+                            <span id="nicknameDisplayText"><%= user.nickname %></span>
+                            <button class="btn change-nickname-btn" onclick="showNicknameInput()">닉네임 변경</button>
+                            <div class="input-group" id="nicknameInputGroup" style="display: none;">
+                                <input type="text" id="nicknameInput" value="">
+                                <button class="btn check-nickname-btn" onclick="checkNickname()">중복 확인</button>
+                            </div>
+                            <span id="nicknameMessage" style="display: none;"></span>
                         </div>
-                        <span id="nicknameMessage" style="display: none;"></span>
                     </div>
+                </div>
+            </div>
+            <div id="updates" class="tab-content">
+                <div class="updates-category">
+                    <h3>업데이트 내역</h3>
+                    <ul class="updates-list">
+                        <li><strong>Web 업데이트 버전:</strong> 1.0.0</li>
+                        <li><strong>Node.js 버전:</strong> 14.17.0</li>
+                        <li><strong>웹 프레임워크 (Express) 버전:</strong> 4.17.1</li>
+                    </ul>
                 </div>
             </div>
             <div class="profile-actions">
@@ -69,7 +95,6 @@
             </div>
         </div>
     </div>
-
     <script src="/scripts/profile.js"></script>
 </body>
 </html>

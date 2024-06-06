@@ -47,47 +47,48 @@ const upload = multer({ storage: storage });
 
 router.post('/update', upload.single('avatar'), async (req, res) => {
     try {
-        const { userId, nickname } = req.body;
-        const avatar = req.file ? `/uploads/${req.file.filename}` : null;
-
-        if (!userId) {
-            return res.status(400).json({ message: 'User ID is required' });
+      const { userId, nickname } = req.body;
+      const avatar = req.file ? `/uploads/${req.file.filename}` : null;
+  
+      if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+      }
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Check if nickname has changed
+      const isNicknameChanged = nickname && nickname !== user.nickname;
+  
+      if (isNicknameChanged) {
+        // Check if nickname has been changed before
+        if (user.lastNicknameChange) {
+          return res.status(400).json({ message: '닉네임은 한 번만 변경할 수 있습니다.' });
         }
-
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+  
+        const nicknameExists = await User.findOne({ nickname });
+        if (nicknameExists) {
+          return res.status(400).json({ message: '중복된 닉네임입니다. 다른 닉네임을 사용해주세요.' });
         }
-
-        // Check if nickname has changed
-        const isNicknameChanged = nickname && nickname !== user.nickname;
-
-        if (isNicknameChanged) {
-            if (user.nicknameChanged) {
-                return res.status(400).json({ message: '닉네임은 한 번만 변경할 수 있습니다.' });
-            }
-
-            const nicknameExists = await User.findOne({ nickname });
-            if (nicknameExists) {
-                return res.status(400).json({ message: '중복된 닉네임입니다. 다른 닉네임을 사용해주세요.' });
-            }
-
-            user.nickname = nickname;
-            user.nicknameChanged = true; // Set the flag to true after changing the nickname
-        }
-
-        if (avatar) {
-            user.avatarUrl = avatar;
-        } else if (!user.avatarUrl) {
-            user.avatarUrl = '/uploads/default-avatar.png';
-        }
-
-        await user.save();
-        res.json({ avatar: user.avatarUrl, nickname: user.nickname, nicknameChanged: user.nicknameChanged });
+  
+        user.nickname = nickname;
+        user.lastNicknameChange = Date.now(); // Set the lastNicknameChange date
+      }
+  
+      if (avatar) {
+        user.avatarUrl = avatar;
+      } else if (!user.avatarUrl) {
+        user.avatarUrl = '/uploads/default-avatar.png';
+      }
+  
+      await user.save();
+      res.json({ avatar: user.avatarUrl, nickname: user.nickname, lastNicknameChange: user.lastNicknameChange });
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+      res.status(500).json({ message: 'Internal server error' });
     }
-});
+  });
 
 
 module.exports = router;

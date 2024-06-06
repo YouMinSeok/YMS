@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: false }, // Google OAuth 사용자에게는 비밀번호가 없음
   nickname: { type: String, required: true },
   avatarUrl: { type: String, default: '/uploads/default-avatar.png' },
-  lastNicknameChange: { type: Date, default: Date.now }
+  lastNicknameChange: { type: Date, default: null } // 닉네임 변경 날짜 추가
 });
 
 // 비밀번호 암호화

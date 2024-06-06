@@ -1,7 +1,7 @@
 body.profile-page {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #333;
-    background: linear-gradient(to right, #ece9e6, #ffffff);
+    background: #f0f0f0;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -17,7 +17,7 @@ body.profile-page::before {
     height: 100%;
     background: url('https://example.com/your-background-image.jpg') no-repeat center center / cover;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0.3;
 }
 
 .profile-page-container {
@@ -31,11 +31,11 @@ body.profile-page::before {
 }
 
 .profile-page-card {
-    background: #fff;
+    background: #ffffff;
     padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    max-width: 600px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
     width: 100%;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -69,7 +69,7 @@ body.profile-page::before {
 .profile-page-card h2 {
     font-size: 26px;
     margin-bottom: 20px;
-    color: #007bff;
+    color: #007BFF;
     font-weight: 700;
 }
 
@@ -79,11 +79,11 @@ body.profile-page::before {
 }
 
 .profile-avatar img {
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    border: 5px solid #007bff;
+    border: 5px solid #007BFF;
 }
 
 .profile-avatar .change-avatar-btn {
@@ -94,7 +94,7 @@ body.profile-page::before {
     padding: 10px 20px;
     font-size: 0.9em;
     border-radius: 20px;
-    background-color: #007bff;
+    background-color: #007BFF;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -121,17 +121,23 @@ body.profile-page::before {
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
     margin: 0 5px;
+    color: #555;
+    border-radius: 15px 15px 0 0;
 }
 
 .tab-btn.active {
-    background-color: #007bff;
+    background-color: #007BFF;
     color: #fff;
-    border-radius: 20px 20px 0 0;
 }
 
 .tab-content {
     display: none;
     text-align: left;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: -1px;
 }
 
 .tab-content.active {
@@ -160,7 +166,7 @@ body.profile-page::before {
 }
 
 .profile-info-item strong {
-    flex: 0 0 120px;
+    flex: 0 0 150px;
     text-align: left;
     color: #333;
     font-weight: 500;
@@ -175,18 +181,18 @@ body.profile-page::before {
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    background: #f9f9f9;
+    border-radius: 10px;
+    background: #fff;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .profile-info-item .input-group {
-    display: none; /* 기본적으로 숨기기 */
+    display: none;
     align-items: center;
 }
 
 .profile-info-item .input-group.active {
-    display: flex; /* 필요할 때 표시 */
+    display: flex;
 }
 
 .profile-info-item input[type="checkbox"] {
@@ -211,7 +217,7 @@ body.profile-page::before {
 
 .profile-actions .btn {
     padding: 12px 24px;
-    background: #007bff;
+    background: #007BFF;
     color: #fff;
     border: none;
     border-radius: 25px;
@@ -230,7 +236,7 @@ body.profile-page::before {
     background: #28a745;
     color: #fff;
     padding: 8px 16px;
-    border-radius: 5px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -246,7 +252,7 @@ body.profile-page::before {
     background: #ffc107;
     color: #333;
     padding: 6px 12px;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: background-color 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -257,6 +263,45 @@ body.profile-page::before {
 
 .header-hero-container {
     margin-bottom: 20px;
+}
+
+.settings-category {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.settings-category h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #007BFF;
+}
+
+.updates-category {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.updates-category h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #007BFF;
+}
+
+.updates-list {
+    list-style: none;
+    padding: 0;
+}
+
+.updates-list li {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
 }
 
 .social-accounts {
@@ -301,17 +346,25 @@ body.profile-page::before {
 
 .change-nickname-btn,
 .check-nickname-btn {
-    background-color: #007bff;
+    background-color: #007BFF;
     color: #fff;
     border: none;
     padding: 10px 20px;
     margin-left: 10px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: background-color 0.3s ease;
 }
 
 .change-nickname-btn:hover,
 .check-nickname-btn:hover {
     background-color: #0056b3;
+}
+
+.profile-info-item #nicknameDisplayText {
+    display: inline-block;
+}
+
+.profile-info-item .input-group {
+    display: none;
 }

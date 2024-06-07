@@ -9,10 +9,17 @@
         <li><a href="/contact">Contact</a></li>
         <% if (user) { %>
             <li class="profile-info" style="display: block;">
-                <a href="/profile">
-                    <img src="<%= user.avatarUrl || '/uploads/default-avatar.png' %>" alt="Avatar" class="navbar-avatar" id="navbarAvatar">
-                    <span id="navbarNickname"><%= user.nickname %></span>님 환영합니다!
-                </a>
+                <div class="dropdown">
+                    <a href="#" class="dropbtn">
+                        <img src="<%= user.avatarUrl || '/uploads/default-avatar.png' %>" alt="Avatar" class="navbar-avatar" id="navbarAvatar">
+                        <span id="navbarNickname"><%= user.nickname %></span>님 환영합니다!
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="/profile">내 프로필</a>
+                        <a href="/friends">친구</a>
+                        <a href="/messenger">메신저</a>
+                    </div>
+                </div>
             </li>
             <li><a href="/logout">Logout</a></li>
         <% } else { %>

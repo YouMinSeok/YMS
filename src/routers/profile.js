@@ -95,4 +95,15 @@ router.post('/update', upload.single('avatar'), async (req, res) => {
     }
 });
 
+router.post('/clear-activity-log', authenticateToken, async (req, res) => {
+    try {
+        const user = res.locals.user;
+        user.loginRecords = [];
+        await user.save();
+        res.status(200).json({ message: '활동 내역이 삭제되었습니다.' });
+    } catch (error) {
+        res.status(500).json({ message: '활동 내역 삭제 중 오류가 발생했습니다.' });
+    }
+});
+
 module.exports = router;

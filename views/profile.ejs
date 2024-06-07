@@ -12,7 +12,7 @@
     <header class="header-hero-container">
         <%- include('partials/navbar', { user: user }) %>
     </header>
-    <div class="profile-page-container <%= user.selectedTheme %>"> <!-- 사용자 선택 테마 적용 -->
+    <div class="profile-page-container <%= user.selectedTheme %>">
         <div class="profile-page-card">
             <div class="profile-header">
                 <h2 id="welcomeMessage"><%= user.nickname %>님, 환영합니다!</h2>
@@ -74,6 +74,9 @@
                             </div>
                         <% }) %>
                     </div>
+                    <div class="console-input">
+                        <input type="text" id="consoleInput" placeholder="명령어를 입력하세요 (예: /clear all)">
+                    </div>
                 </div>
             </div>
             <div id="settings" class="tab-content">
@@ -109,6 +112,7 @@
                     <h3>업데이트 내역</h3>
                     <ul class="updates-list">
                         <li><strong>Web 업데이트 버전:</strong> 1.0.0</li>
+                        <li><strong>Web UI 버전:</strong> 1.0</li>
                         <li><strong>Node.js 버전:</strong> 14.17.0</li>
                         <li><strong>웹 프레임워크 (Express) 버전:</strong> 4.17.1</li>
                     </ul>

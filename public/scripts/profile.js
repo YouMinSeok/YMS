@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     var tabButtons = document.querySelectorAll(".tab-btn");
     var tabContents = document.querySelectorAll(".tab-content");
+    var consoleInput = document.getElementById('consoleInput');
 
     tabButtons.forEach(function(button) {
         button.addEventListener("click", function() {
@@ -39,7 +40,40 @@ document.addEventListener("DOMContentLoaded", function() {
     if (savedTheme) {
         applyTheme(savedTheme);
     }
+
+    // 콘솔 입력 감지
+    if (consoleInput) {
+        consoleInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                handleConsoleCommand(consoleInput.value);
+                consoleInput.value = '';
+            }
+        });
+    }
 });
+
+async function handleConsoleCommand(command) {
+    if (command === '/clear all') {
+        try {
+            const response = await fetch('/clear-activity-log', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                alert('모든 활동 내역이 삭제되었습니다.');
+                window.location.reload(); // 페이지를 새로고침하여 변경 사항 반영
+            } else {
+                alert('활동 내역 삭제 중 오류가 발생했습니다.');
+            }
+        } catch (error) {
+            console.error('Error clearing activity log:', error);
+            alert('활동 내역 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    }
+}
 
 function showNicknameInput() {
     const nicknameDisplay = document.getElementById('nicknameDisplayText');

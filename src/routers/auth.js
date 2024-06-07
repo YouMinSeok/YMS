@@ -18,18 +18,31 @@ router.get('/auth/google',
 
 router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
-    (req, res) => {
-        res.cookie('accessToken', req.user.accessToken, {
+    async (req, res) => {
+        let user = req.user;
+        if (!user) {
+            return res.status(400).send('User not authenticated');
+        }
+
+        // Ensure user is a Mongoose document before updating
+        user = await User.findById(user._id);
+        user.loginRecords.push(new Date());
+        await user.save();
+
+        const accessToken = generateAccessToken({ userId: user._id, username: user.username, email: user.email });
+        const refreshToken = generateRefreshToken({ userId: user._id, username: user.username, email: user.email });
+
+        res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict'
         });
-        res.cookie('refreshToken', req.user.refreshToken, {
+        res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict'
         });
-        res.redirect(`/?nickname=${encodeURIComponent(req.user.nickname)}&avatarUrl=${encodeURIComponent(req.user.avatarUrl || '/uploads/default-avatar.png')}`);
+        res.redirect(`/?nickname=${encodeURIComponent(user.nickname)}&avatarUrl=${encodeURIComponent(user.avatarUrl || '/uploads/default-avatar.png')}`);
     }
 );
 
@@ -47,6 +60,9 @@ router.post('/login', async (req, res) => {
             return res.status(401).send('비밀번호가 잘못되었습니다.');
         }
 
+        user.loginRecords.push(new Date());
+        await user.save();
+
         const accessToken = generateAccessToken({ userId: user._id, username: user.username, email: user.email, nickname: user.nickname });
         const refreshToken = generateRefreshToken({ userId: user._id, username: user.username, email: user.email, nickname: user.nickname });
 
@@ -61,7 +77,6 @@ router.post('/login', async (req, res) => {
             sameSite: 'strict'
         });
 
-        // 세션에 닉네임과 아바타 URL 저장
         req.session.nickname = user.nickname;
         req.session.avatarUrl = user.avatarUrl || '/uploads/default-avatar.png';
 
@@ -79,7 +94,7 @@ router.post('/token', (req, res) => {
 
     try {
         const user = verifyRefreshToken(refreshToken);
-        const newAccessToken = generateAccessToken({ username: user.username, email: user.email });
+        const newAccessToken = generateAccessToken({ userId: user.userId, username: user.username, email: user.email });
 
         res.cookie('accessToken', newAccessToken, {
             httpOnly: true,

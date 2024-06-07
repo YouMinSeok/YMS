@@ -35,11 +35,17 @@ passport.use(new GoogleStrategy({
           googleId: profile.id,
           username: profile.emails[0].value.split('@')[0],
           email: profile.emails[0].value,
-          nickname: profile.displayName || profile.emails[0].value.split('@')[0], // 닉네임 설정
-          avatarUrl: profile.photos[0].value // Google 프로필 이미지 URL 설정
+          nickname: profile.displayName || profile.emails[0].value.split('@')[0],
+          avatarUrl: profile.photos[0].value
         });
         await user.save();
+      } else {
+        // Ensure user is a Mongoose document before updating
+        user = await User.findById(user._id);
+        user.loginRecords.push(new Date());
+        await user.save();
       }
+
       const jwtPayload = { userId: user._id, username: user.username, email: user.email };
       const accessToken = generateAccessToken(jwtPayload);
       const refreshToken = generateRefreshToken(jwtPayload);

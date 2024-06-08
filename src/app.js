@@ -1,4 +1,3 @@
-// src/app.js
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -15,6 +14,8 @@ const profileRouter = require('./routers/profile');
 const friendRouter = require('./routers/friend');
 
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -24,7 +25,6 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
-// Mongoose connection with retry logic
 const connectWithRetry = async () => {
     console.log('MongoDB connection with retry');
     try {
@@ -38,7 +38,6 @@ const connectWithRetry = async () => {
 
 connectWithRetry();
 
-// Session and Passport initialization
 app.use(session({
     secret: 'secret',
     resave: false,
@@ -49,7 +48,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Middleware: Token verification and user information setting
 app.use(authenticateToken);
 
 app.use('/', indexRouter);
@@ -57,7 +55,26 @@ app.use('/', authRouter);
 app.use('/', profileRouter);
 app.use('/', friendRouter);
 
+io.on('connection', (socket) => {
+    console.log(`A user connected: ${socket.id}`);
+
+    socket.on('join room', (roomId) => {
+        socket.join(roomId);
+        console.log(`User joined room: ${roomId}`);
+    });
+
+    socket.on('chat message', (msg) => {
+        const roomId = msg.roomId;
+        io.to(roomId).emit('chat message', msg);
+        console.log(`Message received in room ${roomId}: ${JSON.stringify(msg)}`);
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`User disconnected: ${socket.id}`);
+    });
+});
+
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`서버가 포트 ${port}에서 실행 중입니다.`);
 });

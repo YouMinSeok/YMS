@@ -1,0 +1,205 @@
+/* 기본적인 스타일 설정 */
+body.profile-page {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 공통 스타일 */
+.profile-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.profile-page-card {
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 0.5s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.profile-page-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.profile-page-card h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #007BFF;
+    font-weight: 700;
+}
+
+.profile-avatar {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.profile-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-avatar .change-avatar-btn {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    font-size: 0.9em;
+    border-radius: 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar .change-avatar-btn:hover {
+    background-color: #0056b3;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0 5px;
+    color: #555;
+    border-radius: 15px 15px 0 0;
+}
+
+.tab-btn.active {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+.tab-content {
+    display: none;
+    text-align: left;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: -1px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.friends-list,
+.friend-requests {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.friend-item,
+.request-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #f0f3f7;
+    border-radius: 10px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.friend-avatar,
+.requester-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.friend-name,
+.requester-name {
+    flex: 1;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.message-btn,
+.remove-btn,
+.accept-btn,
+.decline-btn,
+.add-friend-btn {
+    padding: 8px 16px;
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.message-btn:hover,
+.remove-btn:hover,
+.accept-btn:hover,
+.decline-btn:hover,
+.add-friend-btn:hover {
+    background: #0056b3;
+}
+
+.add-friend-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-input {
+    padding: 10px;
+    border: 2px solid #007BFF;
+    border-radius: 20px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+    flex: 1;
+}
+
+.form-input:focus {
+    border-color: #0056b3;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

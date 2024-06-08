@@ -45,7 +45,8 @@
                     </div>
                     <div class="profile-info-item">
                         <strong class="info-label">Short ID:</strong>
-                        <span class="info-value"><%= user.shortId %></span>
+                        <span class="info-value" id="shortIdValue"><%= user.shortId %></span>
+                        <button class="btn copy-btn" onclick="copyToClipboard('<%= user.shortId %>', this)">복사하기</button>
                     </div>
                     <div class="profile-info-item">
                         <strong class="info-label">Password:</strong>

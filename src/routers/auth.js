@@ -6,8 +6,7 @@ const {
     generateRefreshToken,
     verifyRefreshToken,
     checkEmail,
-    checkUsername,
-    checkNickname
+    checkUsername
 } = require('../utils/auth');
 
 const router = express.Router();
@@ -121,7 +120,7 @@ router.post('/register', async (req, res) => {
         return res.status(400).json({ message: '중복된 사용자 이름입니다. 다른 사용자 이름을 사용해주세요.' });
     }
 
-    const nicknameExists = await checkNickname(nickname);
+    const nicknameExists = await User.findOne({ nickname });
     if (nicknameExists) {
         return res.status(400).json({ message: '중복된 닉네임입니다. 다른 닉네임을 사용해주세요.' });
     }
@@ -184,7 +183,7 @@ router.post('/check-nickname', async (req, res) => {
         return res.status(200).json({ available: true });
     }
 
-    const nicknameExists = await checkNickname(nickname);
+    const nicknameExists = await User.findOne({ nickname });
     if (nicknameExists) {
         return res.status(400).json({ message: '중복된 닉네임입니다. 다른 닉네임을 사용해주세요.' });
     }

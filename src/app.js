@@ -1,3 +1,4 @@
+// src/app.js
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -11,6 +12,7 @@ const { authenticateToken } = require('./utils/auth');
 const indexRouter = require('./routers/index');
 const authRouter = require('./routers/auth');
 const profileRouter = require('./routers/profile');
+const friendRouter = require('./routers/friend');
 
 const app = express();
 
@@ -53,6 +55,7 @@ app.use(authenticateToken);
 app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/', profileRouter);
+app.use('/', friendRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

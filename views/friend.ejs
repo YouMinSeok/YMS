@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends</title>
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/profile-styles.css">
+</head>
+<body class="profile-page">
+    <header class="header-hero-container">
+        <%- include('partials/navbar', { user: user }) %>
+    </header>
+    <div class="profile-page-container">
+        <div class="profile-page-card">
+            <h2>친구 목록</h2>
+            <ul id="friendList">
+                <% friends.forEach(friend => { %>
+                    <li><%= friend.nickname %> (<%= friend.email %>)</li>
+                <% }) %>
+            </ul>
+            <div>
+                <input type="text" id="shortIdInput" placeholder="친구의 Short ID를 입력하세요">
+                <button id="sendFriendRequestBtn">친구 추가</button>
+            </div>
+            <h2>친구 요청</h2>
+            <ul id="friendRequests">
+                <% friendRequests.forEach(request => { %>
+                    <li>
+                        <%= request.requester.nickname %> (<%= request.requester.email %>)
+                        <button class="accept-btn" data-request-id="<%= request._id %>">수락</button>
+                        <button class="decline-btn" data-request-id="<%= request._id %>">거부</button>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+    <script src="/scripts/friend.js"></script>
+</body>
+</html>

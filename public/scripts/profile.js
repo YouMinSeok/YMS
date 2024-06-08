@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Avatar change
+    // 아바타 변경
     document.getElementById("avatarInput").addEventListener("change", function(event) {
         var reader = new FileReader();
         reader.onload = function() {
@@ -63,16 +63,40 @@ async function handleConsoleCommand(command) {
             });
 
             if (response.ok) {
-                alert('모든 활동 내역이 삭제되었습니다.');
-                window.location.reload(); // 페이지를 새로고침하여 변경 사항 반영
+                const activityLog = document.querySelector('.activity-log');
+                while (activityLog.firstChild) {
+                    activityLog.removeChild(activityLog.firstChild);
+                }
+                displayActivityNotification('모든 활동 내역이 삭제되었습니다.');
             } else {
-                alert('활동 내역 삭제 중 오류가 발생했습니다.');
+                displayActivityNotification('활동 내역 삭제 중 오류가 발생했습니다.');
             }
         } catch (error) {
             console.error('Error clearing activity log:', error);
-            alert('활동 내역 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
+            displayActivityNotification('활동 내역 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
         }
     }
+}
+
+function displayActivityNotification(message) {
+    const activityLog = document.querySelector('.activity-log');
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    activityLog.appendChild(notification);
+
+    // 알림 메시지를 서서히 보이게 함
+    setTimeout(() => {
+        notification.style.opacity = 1;
+    }, 10);
+
+    // 2초 후에 알림 메시지를 서서히 사라지게 함
+    setTimeout(() => {
+        notification.style.opacity = 0;
+        setTimeout(() => {
+            notification.remove();
+        }, 500);
+    }, 2000);
 }
 
 function showNicknameInput() {
@@ -104,12 +128,10 @@ async function checkNickname() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ newNickname, currentNickname })
+            body: JSON.stringify({ nickname: newNickname, currentNickname })
         });
 
         const data = await response.json();
-        const message = document.getElementById('nicknameMessage');
-        if (message) message.style.display = 'inline-block';
 
         if (response.ok) {
             alert('사용 가능한 닉네임입니다.');
@@ -167,8 +189,15 @@ async function saveProfile() {
             document.querySelector('.check-nickname-btn').style.display = 'none';
 
             alert('프로필이 성공적으로 저장되었습니다.');
-            window.location.href = '/';  // 메인 페이지로 리다이렉트
         } else {
+            // 닉네임 변경에 실패한 경우, 입력 필드를 초기 상태로 되돌림
+            const currentNickname = document.getElementById('nicknameDisplayText').textContent;
+            document.getElementById('nicknameInput').value = currentNickname;
+            document.getElementById('nicknameInputGroup').style.display = 'none';
+            document.getElementById('nicknameDisplayText').style.display = 'inline';
+            document.querySelector('.change-nickname-btn').style.display = 'inline-block';
+            document.querySelector('.check-nickname-btn').style.display = 'none';
+
             alert(data.message);
         }
     } catch (error) {
@@ -204,4 +233,19 @@ function setTheme(themeName) {
 function applyTheme(themeName) {
     document.body.className = 'profile-page ' + themeName;
     localStorage.setItem('selectedTheme', themeName);
+}
+
+// 클립보드에 복사하는 함수 추가
+function copyToClipboard(text, button) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    button.textContent = '복사되었습니다';
+    setTimeout(() => {
+        button.textContent = '복사하기';
+    }, 2000);
 }

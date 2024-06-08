@@ -79,18 +79,26 @@ function showFriendDetails(id, nickname, email, avatarUrl) {
     profileCard.querySelector('.friend-email').textContent = email;
     profileCard.style.display = 'flex';
     profileCard.setAttribute('data-friend-id', id);
+    profileCard.setAttribute('data-friend-nickname', nickname); // 닉네임 저장
     document.getElementById('chatBox').style.display = 'none';
 }
 
 function startChat() {
     const profileCard = document.getElementById('profileCard');
     const friendId = profileCard.getAttribute('data-friend-id');
+    const friendNickname = profileCard.getAttribute('data-friend-nickname'); // 닉네임 가져오기
     const chatBox = document.getElementById('chatBox');
+    chatBox.querySelector('.chat-friend-name').textContent = friendNickname; // 닉네임 설정
     chatBox.style.display = 'flex';
     chatBox.querySelector('.chat-messages').setAttribute('id', `chatMessages-${friendId}`);
     chatBox.querySelector('.chat-input input').setAttribute('id', `chatInput-${friendId}`);
     chatBox.querySelector('.chat-input button').setAttribute('onclick', `sendMessage('${friendId}')`);
     profileCard.style.display = 'none'; // 프로필 카드 숨기기
+}
+
+function closeChat() {
+    document.getElementById('chatBox').style.display = 'none';
+    document.getElementById('profileCard').style.display = 'none';
 }
 
 function sendMessage(friendId) {
@@ -99,7 +107,7 @@ function sendMessage(friendId) {
     const message = input.value;
     if (message.trim() !== "") {
         const messageElement = document.createElement('div');
-        messageElement.className = 'message';
+        messageElement.className = 'message me';
         messageElement.innerHTML = `
             <div class="message-text">${message}</div>
         `;

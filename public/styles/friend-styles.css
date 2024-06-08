@@ -19,6 +19,8 @@ body.profile-page {
     flex-direction: column;
     padding: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 10px;
 }
 
 .profile-header {
@@ -32,6 +34,7 @@ body.profile-page {
     justify-content: space-around;
     margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
+    gap: 10px;
 }
 
 .tab-btn {
@@ -43,7 +46,7 @@ body.profile-page {
     transition: background-color 0.3s ease, color 0.3s ease;
     margin: 0 2px;
     color: #555;
-    border-radius: 10px 10px 0 0;
+    border-radius: 20px;
 }
 
 .tab-btn.active {
@@ -56,9 +59,9 @@ body.profile-page {
     text-align: left;
     padding: 10px;
     background: #f9f9f9;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: -1px;
+    margin-top: 10px;
 }
 
 .tab-content.active {
@@ -78,7 +81,9 @@ body.profile-page {
     margin-bottom: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    border-radius: 8px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .friend-item:hover {
@@ -121,6 +126,7 @@ body.profile-page {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 10px;
 }
 
 .add-friend input {
@@ -174,9 +180,9 @@ body.profile-page {
     justify-content: space-between;
     padding: 8px;
     margin-bottom: 5px;
-    border-radius: 8px;
+    border-radius: 20px;
     background: #e0f7fa;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .request-info {
@@ -197,7 +203,7 @@ body.profile-page {
 
 .friend-request-buttons {
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 
 .friend-request-buttons button {
@@ -227,46 +233,35 @@ body.profile-page {
 
 .profile-card {
     width: 400px;
-    height: 500px;
+    height: auto;
     background: linear-gradient(to bottom, #FFEBF1, #ffffff);
-    border-radius: 15px;
+    border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.profile-top {
-    height: 50%;
-    background-color: #FFEBF1;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.profile-bottom {
-    height: 50%;
-    background-color: #ffffff;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     padding: 20px;
+}
+
+.profile-cover {
+    width: 100%;
+    height: 100px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    object-fit: cover;
 }
 
 .friend-profile-avatar {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin-top: -50px;
+    border: 5px solid white;
 }
 
 .friend-profile-info {
     text-align: center;
+    margin-top: 10px;
 }
 
 .friend-profile-info .friend-nickname {
@@ -279,18 +274,18 @@ body.profile-page {
     color: #888;
 }
 
-.start-chat-btn {
+.message-btn {
     padding: 10px 20px;
     background-color: #007BFF;
     color: #fff;
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
-.start-chat-btn:hover {
+.message-btn:hover {
     background-color: #0056b3;
 }
 
@@ -298,7 +293,7 @@ body.profile-page {
     width: 400px;
     height: 600px;
     background-color: #D7E9F7;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
@@ -311,6 +306,28 @@ body.profile-page {
     display: flex;
 }
 
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    margin-bottom: 10px;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+    color: #007BFF;
+    margin-right: 10px;
+}
+
+.chat-friend-name {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #333;
+}
+
 .chat-messages {
     flex-grow: 1;
     overflow-y: auto;
@@ -318,7 +335,7 @@ body.profile-page {
     max-height: 500px;
     padding: 10px;
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -331,7 +348,7 @@ body.profile-page {
     flex-grow: 1;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 10px;
+    border-radius: 20px;
     outline: none;
 }
 
@@ -340,7 +357,7 @@ body.profile-page {
     background-color: #007BFF;
     color: #fff;
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -363,9 +380,27 @@ body.profile-page {
 }
 
 .message-text {
-    background-color: #e1ffc7;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     max-width: 70%;
     word-wrap: break-word;
+}
+
+/* 상대방 메시지 스타일 */
+.message.friend .message-text {
+    background-color: #e1ffc7;
+    margin-right: auto; /* 왼쪽 정렬 */
+}
+
+/* 내 메시지 스타일 */
+.message.me .message-text {
+    background-color: #007BFF;
+    color: #fff;
+    margin-left: auto; /* 오른쪽 정렬 */
+}
+
+.arrow-left::before {
+    content: "←";
+    font-size: 1.5em;
+    color: #007BFF;
 }

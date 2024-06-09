@@ -1,4 +1,4 @@
-const path = require('path'); // 추가
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -41,7 +41,6 @@ passport.use(new GoogleStrategy({
         });
         await user.save();
       } else {
-        // Ensure user is a Mongoose document before updating
         user = await User.findById(user._id);
         user.loginRecords.push(new Date());
         await user.save();

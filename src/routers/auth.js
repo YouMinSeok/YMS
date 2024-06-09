@@ -11,13 +11,15 @@ const {
 
 const router = express.Router();
 
+// 환경 변수에 따른 리디렉션 URI 설정
 const redirectURI = process.env.NODE_ENV === 'production' ? process.env.GOOGLE_REDIRECT_URI_PROD : process.env.GOOGLE_REDIRECT_URI;
 
 router.get('/auth/google',
     passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
-router.get(redirectURI.replace('/callback', ''), // 동적으로 콜백 경로 설정
+// 콜백 경로 설정
+router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     async (req, res) => {
         let user = req.user;
@@ -47,6 +49,7 @@ router.get(redirectURI.replace('/callback', ''), // 동적으로 콜백 경로 �
     }
 );
 
+// 기타 라우터 설정
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 

@@ -102,9 +102,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    if (!sessionNickname || !sessionAvatarUrl) {
-        hideUserNav();
-    }
+    // Listen for custom event to update user nav
+    window.addEventListener('updateUserNav', (event) => {
+        const { nickname, avatarUrl } = event.detail;
+        sessionStorage.setItem('nickname', nickname);
+        sessionStorage.setItem('avatarUrl', avatarUrl);
+        showUserNav(nickname, avatarUrl);
+    });
 
     let slideIndex = 0;
 

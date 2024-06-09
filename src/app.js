@@ -59,6 +59,9 @@ app.use('/', profileRouter);
 app.use('/', friendRouter);
 app.use('/', messageRouter);
 
+// Socket.io 객체를 앱에 추가
+app.set('socketio', io);
+
 io.on('connection', (socket) => {
     console.log(`A user connected: ${socket.id}`);
 

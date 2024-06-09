@@ -178,9 +178,24 @@ async function saveProfile() {
                 if (navbarAvatar) {
                     navbarAvatar.src = data.avatar;
                 }
+                // 프로필 업데이트 시 이벤트 발생
+                const updateUserNavEvent = new CustomEvent('updateUserNav', {
+                    detail: {
+                        nickname: data.nickname,
+                        avatarUrl: data.avatar
+                    }
+                });
+                window.dispatchEvent(updateUserNavEvent);
+
+                // Socket.io를 사용하여 프로필 업데이트 이벤트 전송
+                if (window.socket) { // socket이 정의되어 있는지 확인
+                    window.socket.emit('profileUpdated', { userId: userId, avatarUrl: data.avatar });
+                } else {
+                    console.error('Socket is not defined');
+                }
             }
             sessionStorage.setItem('nickname', data.nickname);
-            sessionStorage.setItem('avatar', data.avatar);
+            sessionStorage.setItem('avatarUrl', data.avatar);
 
             // 닉네임 필드 숨기고 텍스트로 다시 표시
             document.getElementById('nicknameInputGroup').style.display = 'none';

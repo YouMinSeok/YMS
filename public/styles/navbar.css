@@ -58,11 +58,12 @@
 }
 
 .navbar-avatar {
-    width: 35px; /* 아바타 크기 조정 */
-    height: 35px; /* 아바타 크기 조정 */
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     margin-right: 8px;
     vertical-align: middle;
+    object-fit: cover; /* 이미지가 영역을 벗어나지 않도록 함 */
 }
 
 #navbarNickname {
@@ -148,4 +149,36 @@
 
 .dropdown:hover .dropbtn {
     color: #ddd; /* 드롭다운 활성화 시 버튼 색상 변경 */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .navbar .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #1e1e1e;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        z-index: 1;
+    }
+
+    .navbar .nav-links.active {
+        display: flex;
+    }
+
+    .navbar .hamburger-menu {
+        display: block;
+    }
+
+    .navbar .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar .nav-links li a {
+        padding: 15px 0;
+        border-bottom: 1px solid #444;
+    }
 }

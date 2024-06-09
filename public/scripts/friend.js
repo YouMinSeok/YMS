@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    socket = io(); // socket.io 클라이언트 연결
+    const socket = io(); // socket.io 클라이언트 연결
 
     // 사용자 온라인 상태 업데이트
     const userId = document.body.getAttribute("data-user-id");
@@ -191,6 +191,21 @@ document.addEventListener("DOMContentLoaded", function () {
             friendElement.querySelector(".friend-status").classList.add("offline");
             friendElement.querySelector(".friend-status").classList.remove("online");
         }
+    });
+
+    // 친구 프로필 업데이트 이벤트 처리
+    socket.on('profileUpdated', function (data) {
+        const { userId, avatarUrl } = data;
+        // 친구 리스트에서 아바타 업데이트
+        const friendElement = document.querySelector(`.friend-item[data-short-id="${userId}"] img.friend-avatar`);
+        if (friendElement) {
+            friendElement.src = avatarUrl;
+        }
+        // 현재 열린 대화방에서 프로필 이미지 업데이트
+        const openChatAvatars = document.querySelectorAll(`.chat-messages .friend-avatar[src*="${userId}"]`);
+        openChatAvatars.forEach(avatar => {
+            avatar.src = avatarUrl;
+        });
     });
 
     window.startChat = function () {

@@ -90,8 +90,14 @@ router.post('/update', upload.single('avatar'), async (req, res) => {
         }
 
         await user.save();
+
+        // Socket.io를 사용하여 프로필 업데이트 이벤트 전송
+        const io = req.app.get('socketio'); // io 객체 가져오기
+        io.emit('profileUpdated', { userId: userId, avatarUrl: user.avatarUrl });
+
         res.json({ avatar: user.avatarUrl, nickname: user.nickname, lastNicknameChange: user.lastNicknameChange, selectedTheme: user.selectedTheme });
     } catch (error) {
+        console.error('Error updating profile:', error); // 오류 로그 추가
         res.status(500).json({ message: 'Internal server error' });
     }
 });

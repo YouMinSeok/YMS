@@ -7,14 +7,14 @@ require('dotenv').config();
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
-const { authenticateToken } = require('./utils/auth');
-const indexRouter = require('./routers/index');
-const authRouter = require('./routers/auth');
-const profileRouter = require('./routers/profile');
-const friendRouter = require('./routers/friend');
-const messageRouter = require('./routers/message');
-const Message = require('./models/Message');
-const User = require('./models/User');
+const { authenticateToken } = require(path.join(__dirname, 'utils', 'auth'));
+const indexRouter = require(path.join(__dirname, 'routers', 'index'));
+const authRouter = require(path.join(__dirname, 'routers', 'auth'));
+const profileRouter = require(path.join(__dirname, 'routers', 'profile'));
+const friendRouter = require(path.join(__dirname, 'routers', 'friend'));
+const messageRouter = require(path.join(__dirname, 'routers', 'message'));
+const Message = require(path.join(__dirname, 'models', 'Message'));
+const User = require(path.join(__dirname, 'models', 'User'));
 
 const app = express();
 const server = require('http').createServer(app);
@@ -23,9 +23,9 @@ const io = require('socket.io')(server);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public')));
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.set('views', path.join(__dirname, '../views'));
+app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'ejs');
 
 const connectWithRetry = async () => {

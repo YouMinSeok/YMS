@@ -84,22 +84,40 @@ body.profile-page {
     border-radius: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* 상태 표시를 위해 위치 설정 */
 }
 
 .friend-item:hover {
     background-color: #e9e9e9;
 }
 
+.friend-status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    left: 15px;
+}
+
+.friend-status.online {
+    background-color: green;
+}
+
+.friend-status.offline {
+    background-color: red;
+}
+
 .friend-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    margin-left: 30px; /* 상태 표시를 위해 왼쪽 여백 추가 */
     margin-right: 10px;
 }
 
 .friend-info {
     display: flex;
-    align-items: center;
+    flex-direction: column; /* 닉네임과 이메일을 수직 정렬 */
 }
 
 .friend-nickname {

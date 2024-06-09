@@ -12,7 +12,7 @@
         var socket; // 전역 변수로 정의
     </script>
 </head>
-<body class="profile-page" data-user-shortid="<%= user.shortId %>" data-user-nickname="<%= user.nickname %>">
+<body class="profile-page" data-user-id="<%= user._id %>" data-user-shortid="<%= user.shortId %>" data-user-nickname="<%= user.nickname %>">
     <header class="header-hero-container">
         <%- include('partials/navbar', { user: user }) %>
     </header>
@@ -29,13 +29,12 @@
             <div id="friendList" class="tab-content active">
                 <ul class="friend-list">
                     <% friends.forEach(friend => { %>
-                        <li class="friend-item" onclick="showFriendDetails('<%= friend.shortId %>', '<%= friend.nickname %>', '<%= friend.email %>', '<%= friend.avatarUrl %>')">
+                        <li class="friend-item" data-short-id="<%= friend.shortId %>" onclick="showFriendDetails('<%= friend.shortId %>', '<%= friend.nickname %>', '<%= friend.email %>', '<%= friend.avatarUrl %>')">
+                            <div class="friend-status <%= friend.isOnline ? 'online' : 'offline' %>"></div>
+                            <img src="<%= friend.avatarUrl %>" alt="Avatar" class="friend-avatar">
                             <div class="friend-info">
-                                <img src="<%= friend.avatarUrl %>" alt="Avatar" class="friend-avatar">
-                                <div>
-                                    <span class="friend-nickname" data-short-id="<%= friend.shortId %>"><%= friend.nickname %></span>
-                                    <span class="friend-email"><%= friend.email %></span>
-                                </div>
+                                <span class="friend-nickname" data-short-id="<%= friend.shortId %>"><%= friend.nickname %></span>
+                                <span class="friend-email"><%= friend.email %></span>
                             </div>
                         </li>
                     <% }) %>

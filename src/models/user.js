@@ -13,7 +13,9 @@ const userSchema = new mongoose.Schema({
     shortId: { type: String, default: shortid.generate },
     selectedTheme: { type: String, default: 'light-theme' },
     loginRecords: { type: [Date], default: [] },
-    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] // 친구 목록 필드 추가
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    isOnline: { type: Boolean, default: false },
+    socketId: { type: String, default: null } // 추가
 });
 
 // 비밀번호 암호화

@@ -12,6 +12,9 @@ const indexRouter = require('./routers/index');
 const authRouter = require('./routers/auth');
 const profileRouter = require('./routers/profile');
 const friendRouter = require('./routers/friend');
+const messageRouter = require('./routers/message');
+const Message = require('./models/Message');
+const User = require('./models/User');
 
 const app = express();
 const server = require('http').createServer(app);
@@ -54,6 +57,7 @@ app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/', profileRouter);
 app.use('/', friendRouter);
+app.use('/', messageRouter);
 
 io.on('connection', (socket) => {
     console.log(`A user connected: ${socket.id}`);
@@ -63,14 +67,34 @@ io.on('connection', (socket) => {
         console.log(`User joined room: ${roomId}`);
     });
 
-    socket.on('chat message', (msg) => {
+    socket.on('chat message', async (msg) => {
         const roomId = msg.roomId;
-        io.to(roomId).emit('chat message', msg);
-        console.log(`Message received in room ${roomId}: ${JSON.stringify(msg)}`);
-    });
+        let senderId;
+        try {
+            // Check if msg.senderId is a valid ObjectId, if not, generate a new one
+            senderId = mongoose.Types.ObjectId.isValid(msg.senderId) ? msg.senderId : new mongoose.Types.ObjectId();
+        } catch (error) {
+            console.error('Error generating ObjectId for senderId:', error);
+            return;
+        }
 
-    socket.on('disconnect', () => {
-        console.log(`User disconnected: ${socket.id}`);
+        const messageData = {
+            roomId: roomId,
+            text: msg.text,
+            senderId: senderId,
+            senderNickname: msg.senderNickname,
+            socketId: socket.id, // socket ID 추가
+            timestamp: new Date()
+        };
+
+        try {
+            const message = new Message(messageData);
+            await message.save();
+            io.to(roomId).emit('chat message', { ...msg, socketId: socket.id });
+            console.log(`Message received in room ${roomId}: ${JSON.stringify(msg)}`);
+        } catch (error) {
+            console.error('Error saving message:', error);
+        }
     });
 });
 

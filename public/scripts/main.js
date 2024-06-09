@@ -105,4 +105,29 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!sessionNickname || !sessionAvatarUrl) {
         hideUserNav();
     }
+
+    let slideIndex = 0;
+
+    function showSlides() {
+        const slides = document.querySelectorAll('.hero-slide');
+        slides.forEach(slide => slide.style.display = 'none');
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        slides[slideIndex-1].style.display = 'block';
+        setTimeout(showSlides, 4000); // 4초마다 슬라이드 변경
+    }
+
+    function plusSlides(n) {
+        const slides = document.querySelectorAll('.hero-slide');
+        slides[slideIndex-1].style.display = 'none';
+        slideIndex += n;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        if (slideIndex < 1) {slideIndex = slides.length}
+        slides[slideIndex-1].style.display = 'block';
+    }
+
+    showSlides();
+
+    document.querySelector('.slide-btn.left').addEventListener('click', () => plusSlides(-1));
+    document.querySelector('.slide-btn.right').addEventListener('click', () => plusSlides(1));
 });

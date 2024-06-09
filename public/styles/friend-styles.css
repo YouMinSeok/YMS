@@ -3,7 +3,7 @@ body.profile-page {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f7f7f7;
+    background-color: #D5E8F4; /* 배경색을 연한 하늘색으로 변경 */
 }
 
 .messenger-container {
@@ -84,7 +84,7 @@ body.profile-page {
     border-radius: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative; /* 상태 표시를 위해 위치 설정 */
+    position: relative;
 }
 
 .friend-item:hover {
@@ -92,32 +92,34 @@ body.profile-page {
 }
 
 .friend-status {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
+    width: 20px; /* 크기를 키움 */
+    height: 20px; /* 크기를 키움 */
     position: absolute;
-    left: 15px;
+    right: 15px; /* 위치 조정 */
 }
 
-.friend-status.online {
-    background-color: green;
+.friend-status.online::before {
+    content: "✔"; /* 체크 아이콘 */
+    font-size: 16px;
+    color: green;
 }
 
-.friend-status.offline {
-    background-color: red;
+.friend-status.offline::before {
+    content: "✖"; /* X 아이콘 */
+    font-size: 16px;
+    color: red;
 }
 
 .friend-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-left: 30px; /* 상태 표시를 위해 왼쪽 여백 추가 */
     margin-right: 10px;
 }
 
 .friend-info {
     display: flex;
-    flex-direction: column; /* 닉네임과 이메일을 수직 정렬 */
+    flex-direction: column;
 }
 
 .friend-nickname {
@@ -243,7 +245,7 @@ body.profile-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #e7f3ff;
+    background-color: #D5E8F4; /* 배경색을 연한 하늘색으로 변경 */
     text-align: center;
     padding: 20px;
     flex-direction: column;
@@ -310,7 +312,7 @@ body.profile-page {
 .chat-box {
     width: 400px;
     height: 600px;
-    background-color: #D7E9F7;
+    background-color: #D5E8F4;
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -327,7 +329,7 @@ body.profile-page {
 .chat-header {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* 왼쪽 정렬 */
+    justify-content: flex-start;
     margin-bottom: 10px;
 }
 
@@ -386,35 +388,81 @@ body.profile-page {
 
 .message {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.message.me {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.message.me .message-content {
+    text-align: right;
+}
+
+.message.me .message-avatar {
+    margin-left: 10px;
+}
+
+.message.friend {
+    align-items: flex-start;
+    text-align: left;
+}
+
+.message.friend .message-avatar {
+    margin-right: 10px;
 }
 
 .message-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-right: 10px;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    max-width: 70%;
+}
+
+.message.me .message-content {
+    align-items: flex-end;
+}
+
+.message.friend .message-content {
+    align-items: flex-start;
+}
+
+.message-nickname {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 5px;
 }
 
 .message-text {
     padding: 10px;
-    border-radius: 20px;
-    max-width: 70%;
+    border-radius: 5px;
+    max-width: 100%;
     word-wrap: break-word;
-}
-
-/* 상대방 메시지 스타일 */
-.message.friend .message-text {
+    margin-bottom: 5px;
     background-color: #e1ffc7;
-    margin-right: auto; /* 왼쪽 정렬 */
+    color: #000;
 }
 
-/* 내 메시지 스타일 */
 .message.me .message-text {
-    background-color: #007BFF;
-    color: #fff;
-    margin-left: auto; /* 오른쪽 정렬 */
+    background-color: #FFEB3B;
+    color: #000;
+}
+
+.message-timestamp {
+    font-size: 0.7em;
+    color: #888;
+    text-align: left;
+    display: block;
+    margin-top: 3px;
 }
 
 .arrow-left::before {

@@ -6,6 +6,7 @@ const messageSchema = new Schema({
     text: { type: String, required: true },
     senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     senderNickname: { type: String, required: true },
+    senderAvatar: { type: String, required: true }, // 프로필 이미지 추가
     timestamp: { type: Date, default: Date.now }
 });
 

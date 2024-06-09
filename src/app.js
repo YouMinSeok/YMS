@@ -62,28 +62,31 @@ app.use('/', messageRouter);
 io.on('connection', (socket) => {
     console.log(`A user connected: ${socket.id}`);
 
+    // 사용자 온라인 상태 업데이트
+    socket.on('user online', async (shortId) => {
+        try {
+            await User.findOneAndUpdate({ shortId }, { isOnline: true, socketId: socket.id });
+            console.log(`User ${shortId} is online`);
+        } catch (error) {
+            console.error('Error updating user online status:', error);
+        }
+    });
+
+    // 방에 입장
     socket.on('join room', (roomId) => {
         socket.join(roomId);
         console.log(`User joined room: ${roomId}`);
     });
 
+    // 채팅 메시지 수신 및 저장
     socket.on('chat message', async (msg) => {
         const roomId = msg.roomId;
-        let senderId;
-        try {
-            // Check if msg.senderId is a valid ObjectId, if not, generate a new one
-            senderId = mongoose.Types.ObjectId.isValid(msg.senderId) ? msg.senderId : new mongoose.Types.ObjectId();
-        } catch (error) {
-            console.error('Error generating ObjectId for senderId:', error);
-            return;
-        }
-
         const messageData = {
             roomId: roomId,
             text: msg.text,
-            senderId: senderId,
+            senderId: msg.senderId,
             senderNickname: msg.senderNickname,
-            socketId: socket.id, // socket ID 추가
+            senderAvatar: msg.senderAvatar, // 프로필 이미지 추가
             timestamp: new Date()
         };
 
@@ -94,6 +97,30 @@ io.on('connection', (socket) => {
             console.log(`Message received in room ${roomId}: ${JSON.stringify(msg)}`);
         } catch (error) {
             console.error('Error saving message:', error);
+        }
+    });
+
+    // 사용자 로그아웃 처리
+    socket.on('logout', async (shortId) => {
+        try {
+            await User.findOneAndUpdate({ shortId }, { isOnline: false });
+            console.log(`User ${shortId} is offline`);
+            socket.broadcast.emit('friend offline', shortId); // 친구에게 오프라인 상태 전송
+        } catch (error) {
+            console.error('Error updating user offline status:', error);
+        }
+    });
+
+    // 연결 해제 처리
+    socket.on('disconnect', async () => {
+        try {
+            const user = await User.findOneAndUpdate({ socketId: socket.id }, { isOnline: false });
+            if (user) {
+                console.log(`User ${user.shortId} disconnected`);
+                socket.broadcast.emit('friend offline', user.shortId); // 친구에게 오프라인 상태 전송
+            }
+        } catch (error) {
+            console.error('Error handling disconnect:', error);
         }
     });
 });

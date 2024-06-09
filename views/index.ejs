@@ -3,39 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeWebGuard</title>
-    <link rel="stylesheet" href="/styles/navbar.css">
+    <meta name="description" content="Welcome to the Developer Portal. A place where dreams come true.">
+    <title>Developer Portal</title>
     <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/navbar.css">
 </head>
 <body class="main">
     <header class="header-hero-container">
         <%- include('partials/navbar', { user: user }) %>
         <div class="hero">
-            <h1 class="hero-title">Welcome to the website</h1>
-            <p class="hero-subtitle">A place where dreams come true</p>
-            <a href="#" class="btn">Get Started</a>
+            <div class="hero-slide">
+                <h1 class="hero-title">Welcome to the website</h1>
+                <p class="hero-subtitle">A place where dreams come true</p>
+                <a href="#" class="btn">시작하기</a>
+            </div>
+            <div class="hero-slide">
+                <h1 class="hero-title">Next Title</h1>
+                <p class="hero-subtitle">Next Subtitle</p>
+                <a href="#" class="btn">Next Button</a>
+            </div>
+            <div class="hero-slide">
+                <h1 class="hero-title">Another Title</h1>
+                <p class="hero-subtitle">Another Subtitle</p>
+                <a href="#" class="btn">Another Button</a>
+            </div>
         </div>
+        <button class="slide-btn left" onclick="plusSlides(-1)" aria-label="Previous slide">&#10094;</button>
+        <button class="slide-btn right" onclick="plusSlides(1)" aria-label="Next slide">&#10095;</button>
     </header>
-    <section class="features">
-        <h2>Our Features</h2>
-        <div class="feature">
-            <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjEwMDlfMTky%2FMDAxNjY1Mjk3MTkxNzkz.JRyEUOYk4d4dU7uylBQ2GeC6qIPuBGkMVlu_GnG-aZAg.x4U3ehCUiW7DwA8_ydcAqrVL2ysxodvaRoy5xGoBg3cg.PNG.kslim1025%2F3208680.png&type=sc960_832" alt="Feature 1">
-            <h3>Feature 1</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+    <div class="content">
+        <h2>Web Gard 특징</h2>
+        <div class="features">
+            <div class="feature">
+                <div class="icon">🔄</div>
+                <h3>보안</h3>
+                <p>인간은 서로에게 기대어 살아가는 존재이기 때문에, SafeWebGuard는 서로 간 긍정의 상호 작용으로 함께 발전할 수 있는 상생을 추구합니다. 수많은 개발자와 함께, 개발자에 의해, 개발자를 위해 같이 성장하고 싶습니다.</p>
+                <p>#together, #winwin</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🔧</div>
+                <h3>생산성</h3>
+                <p>개발자의 생산성 향상은 우리의 중요한 목표 중 하나입니다. SafeWebGuard는 개발자가 서비스의 핵심 로직에 집중해, 더 많은 가치를 창출할 수 있는 편리한 환경을 제공하고자 노력하고 있습니다.</p>
+                <p>#productivity</p>
+            </div>
+            <div class="feature">
+                <div class="icon">🔍</div>
+                <h3>메신저</h3>
+                <p>SafeWebGuard는 새로운 문화를 개척하고 다양한 부가가치를 창출하는 창의적인 개발자들을 존중합니다. 모두에게 열려 있는 안전하게 정제된 기술과 서비스로, 더 나은 세상, 보다 의미 있는 사용자 가치를 함께 만들고 싶습니다.</p>
+                <p>#value, #create</p>
+            </div>
         </div>
-        <div class="feature">
-            <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA1MTdfODcg%2FMDAxNjg0MjgyNDA5OTIx.ftLj7roNPzHkWxiESZSF7bx81-nKOdziVkwJCJRe-Ssg.Dc0TdROYWj5TX8ZhkgarOoJttqWWfUpC9a34tXAyMb0g.JPEG.iu_corp%2F22112338_6534510.jpg&type=sc960_832" alt="Feature 2">
-            <h3>Feature 2</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-        <div class="feature">
-            <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA4MTZfMTQy%2FMDAxNjkyMTcwMDc0MjYw.98Bt1vO0Y-lpWWUMTbW3O3f06tnJvn92jvXrRmDA-v0g.xWo6VyE7pck5r5cY-NQQx3FwDzASolV_yFzC76ZnDMYg.PNG.ssde8998%2F6d41536e-7227-4f84-aa17-db9f9a3381e5.png&type=a340" alt="Feature 3">
-            <h3>Feature 3</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-    </section>
+    </div>
+
+    <div class="notice">
+        <h2>공지사항</h2>
+        <a href="#">[공지] <span style="float: right;">2024.5.24</span></a>
+        <a href="#">[공지] <span style="float: right;">2024.5.23</span></a>
+        <a href="#">[공지] <span style="float: right;">2024.5.1</span></a>
+    </div>
+
     <footer>
-        <p>&copy; 배재대학교 대학원 . All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
+        <p>&copy; 배재대학교 대학원. All rights reserved. Developed by Minseok Yu and Jai Yu.</p>
     </footer>
 
     <script src="/scripts/main.js"></script>

@@ -5,16 +5,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const userId = document.body.getAttribute("data-user-id");
     const userShortId = document.body.getAttribute("data-user-shortid");
     const userNickname = document.body.getAttribute("data-user-nickname");
+    const userAvatar = document.body.getAttribute("data-user-avatar");
     socket.emit("user online", userShortId);
+
+    // 로그아웃 버튼 클릭 이벤트
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", function () {
+            socket.emit("logout", userShortId);
+            // 로그아웃 후 페이지 리디렉션 등 추가 작업
+        });
+    }
 
     // 방에 입장
     function joinRoom(roomId) {
+        if (!roomId) {
+            console.error("Room ID is undefined");
+            return;
+        }
         console.log(`Joining room: ${roomId}`);
         socket.emit("join room", roomId);
 
         // 방에 입장할 때 메시지 가져오기
         fetch(`/messages/${roomId}`)
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then((messages) => {
                 const chatMessages = document.getElementById(`chatMessages-${roomId}`);
                 chatMessages.innerHTML = ""; // 기존 메시지 삭제
@@ -22,10 +41,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     const messageElement = document.createElement("div");
                     if (msg.senderId === userId) {
                         messageElement.className = "message me";
-                        messageElement.innerHTML = `<div class="message-text">${msg.text}</div>`;
+                        messageElement.innerHTML = `
+                            <div class="message-content">
+                                <div class="message-text">${msg.text}</div>
+                                <div class="message-timestamp">${formatTime(new Date(msg.timestamp))}</div>
+                            </div>
+                        `;
                     } else {
                         messageElement.className = "message friend";
-                        messageElement.innerHTML = `<div class="message-text"><strong>${msg.senderNickname}:</strong> ${msg.text}</div>`;
+                        messageElement.innerHTML = `
+                            <div class="message-avatar">
+                                <img src="${msg.senderAvatar}" alt="Avatar" class="friend-avatar">
+                            </div>
+                            <div class="message-content">
+                                <div class="message-nickname">${msg.senderNickname}</div>
+                                <div class="message-text">${msg.text}</div>
+                                <div class="message-timestamp">${formatTime(new Date(msg.timestamp))}</div>
+                            </div>
+                        `;
                     }
                     chatMessages.appendChild(messageElement);
                 });
@@ -34,8 +67,9 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch((error) => console.error("Error fetching messages:", error));
     }
 
-    document.getElementById("sendFriendRequestBtn")
-        .addEventListener("click", function () {
+    const sendFriendRequestBtn = document.getElementById("sendFriendRequestBtn");
+    if (sendFriendRequestBtn) {
+        sendFriendRequestBtn.addEventListener("click", function () {
             const shortId = document.getElementById("shortIdInput").value;
             console.log(`Sending friend request to: ${shortId}`);
 
@@ -54,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .catch((error) => console.error("Error:", error));
         });
+    }
 
     document.querySelectorAll(".accept-btn").forEach((button) => {
         button.addEventListener("click", function () {
@@ -118,10 +153,24 @@ document.addEventListener("DOMContentLoaded", function () {
             const messageElement = document.createElement("div");
             if (msg.senderId === userId) {
                 messageElement.className = "message me";
-                messageElement.innerHTML = `<div class="message-text">${msg.text}</div>`;
+                messageElement.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-text">${msg.text}</div>
+                        <div class="message-timestamp">${formatTime(new Date(msg.timestamp))}</div>
+                    </div>
+                `;
             } else {
                 messageElement.className = "message friend";
-                messageElement.innerHTML = `<div class="message-text"><strong>${msg.senderNickname}:</strong> ${msg.text}</div>`;
+                messageElement.innerHTML = `
+                    <div class="message-avatar">
+                        <img src="${msg.senderAvatar}" alt="Avatar" class="friend-avatar">
+                    </div>
+                    <div class="message-content">
+                        <div class="message-nickname">${msg.senderNickname}</div>
+                        <div class="message-text">${msg.text}</div>
+                        <div class="message-timestamp">${formatTime(new Date(msg.timestamp))}</div>
+                    </div>
+                `;
             }
             messages.appendChild(messageElement);
             messages.scrollTop = messages.scrollHeight; // 스크롤을 최신 메시지로 이동
@@ -149,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const friendShortId = profileCard.getAttribute("data-friend-id"); // 친구의 shortId 가져오기
         const userShortId = document.body.getAttribute("data-user-shortid"); // 현재 사용자의 shortId 가져오기
         const userNickname = document.body.getAttribute("data-user-nickname"); // 현재 사용자의 닉네임 가져오기
+        const userAvatar = document.body.getAttribute("data-user-avatar"); // 현재 사용자의 아바타 가져오기
         console.log(`Starting chat with friendShortId: ${friendShortId}, userShortId: ${userShortId}, userNickname: ${userNickname}`);
 
         if (!friendShortId || !userShortId) {
@@ -165,11 +215,11 @@ document.addEventListener("DOMContentLoaded", function () {
         chatBox.style.display = "flex";
         chatBox.querySelector(".chat-messages").setAttribute("id", `chatMessages-${roomId}`);
         chatBox.querySelector(".chat-input input").setAttribute("id", `chatInput-${roomId}`);
-        chatBox.querySelector(".chat-input button").setAttribute("onclick", `sendMessage('${roomId}', '${userNickname}')`);
+        chatBox.querySelector(".chat-input button").setAttribute("onclick", `sendMessage('${roomId}', '${userNickname}', '${userAvatar}')`);
         profileCard.style.display = "none"; // 프로필 카드 숨기기
     };
 
-    window.sendMessage = function (roomId, userNickname) {
+    window.sendMessage = function (roomId, userNickname, userAvatar) {
         const input = document.getElementById(`chatInput-${roomId}`);
         const message = input.value;
         if (message.trim() !== "") {
@@ -178,7 +228,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 text: message,
                 senderId: userId, // 현재 사용자의 ID 가져오기
                 senderNickname: userNickname,
-                socketId: socket.id, // socket ID 추가
+                senderAvatar: userAvatar, // 프로필 이미지 추가
+                timestamp: new Date()
             };
             console.log(`Sending message:`, messageData);
             socket.emit("chat message", messageData); // 서버로 메시지 전송
@@ -196,6 +247,15 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("beforeunload", function () {
         socket.emit("user offline", userShortId);
     });
+
+    function formatTime(date) {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+        let period = hours >= 12 ? '오후' : '오전';
+        hours = hours % 12 || 12; // 12시간제
+        return `${period} ${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
 });
 
 function openTab(evt, tabName) {

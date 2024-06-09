@@ -38,6 +38,13 @@ exports.sendFriendRequest = async (req, res) => {
             return res.status(400).json({ message: '자신을 친구로 추가할 수 없습니다.' });
         }
 
+        // 이미 친구인 경우 확인
+        const currentUser = await User.findById(currentUserId);
+        if (currentUser.friends.includes(recipient._id)) {
+            console.error("Error: 이미 추가된 친구입니다.");
+            return res.status(400).json({ message: '이미 추가된 친구입니다.' });
+        }
+
         const existingRequest = await FriendRequest.findOne({
             requester: currentUserId,
             recipient: recipient._id,

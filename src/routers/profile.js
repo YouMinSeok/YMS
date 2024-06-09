@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const User = require('../models/User');
+const User = require('../models/user'); // 소문자로 변경
 const { authenticateToken } = require('../utils/auth');
 
 const router = express.Router();

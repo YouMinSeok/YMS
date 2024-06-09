@@ -2,7 +2,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const User = require(path.join(__dirname, '..', 'models', 'User'));
+const User = require(path.join(__dirname, '..', 'models', 'user')); // 소문자로 변경
 
 const jwtSecret = process.env.JWT_SECRET;
 const jwtRefreshSecret = process.env.JWT_REFRESH_SECRET;

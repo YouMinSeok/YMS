@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/user'); // 소문자로 변경
 const FriendRequest = require('../models/FriendRequest');
 
 exports.getFriendPage = async (req, res) => {

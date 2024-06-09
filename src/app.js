@@ -14,7 +14,7 @@ const profileRouter = require(path.join(__dirname, 'routers', 'profile'));
 const friendRouter = require(path.join(__dirname, 'routers', 'friend'));
 const messageRouter = require(path.join(__dirname, 'routers', 'message'));
 const Message = require(path.join(__dirname, 'models', 'Message'));
-const User = require(path.join(__dirname, 'models', 'User'));
+const User = require(path.join(__dirname, 'models', 'user')); // 소문자로 변경
 
 const app = express();
 const server = require('http').createServer(app);

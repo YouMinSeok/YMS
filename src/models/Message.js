@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const messageSchema = new Schema({
     roomId: { type: String, required: true },
     text: { type: String, required: true },
-    senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
     senderNickname: { type: String, required: true },
-    senderAvatar: { type: String, required: true }, // 프로필 이미지 추가
+    senderAvatar: { type: String, required: true },
     timestamp: { type: Date, default: Date.now }
 });
 
